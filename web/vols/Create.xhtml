@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VolsCreateDlg" widgetVar="VolsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVolsTitle}">
+            <h:form id="VolsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{volsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateVolsLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{volsController.selected.id}" title="#{bundle.CreateVolsTitle_id}" required="true" requiredMessage="#{bundle.CreateVolsRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateVolsLabel_dateDepart}" for="dateDepart" />
+                        <p:calendar id="dateDepart" pattern="MM/dd/yyyy HH:mm:ss" value="#{volsController.selected.dateDepart}" title="#{bundle.EditVolsTitle_dateDepart}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateVolsLabel_dateArrivee}" for="dateArrivee" />
+                        <p:calendar id="dateArrivee" pattern="MM/dd/yyyy HH:mm:ss" value="#{volsController.selected.dateArrivee}" title="#{bundle.EditVolsTitle_dateArrivee}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateVolsLabel_prix}" for="prix" />
+                        <p:inputText id="prix" value="#{volsController.selected.prix}" title="#{bundle.CreateVolsTitle_prix}" />
+                        <p:outputLabel value="#{bundle.CreateVolsLabel_aereportDepart}" for="aereportDepart" />
+                        <p:selectOneMenu id="aereportDepart" value="#{volsController.selected.aereportDepart}" >
+                            <f:selectItems value="#{aereportController.itemsAvailableSelectOne}"
+                                           var="aereportDepartItem"
+                                           itemValue="#{aereportDepartItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateVolsLabel_aereportArrivee}" for="aereportArrivee" />
+                        <p:selectOneMenu id="aereportArrivee" value="#{volsController.selected.aereportArrivee}" >
+                            <f:selectItems value="#{aereportController.itemsAvailableSelectOne}"
+                                           var="aereportArriveeItem"
+                                           itemValue="#{aereportArriveeItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{volsController.create}" value="#{bundle.Save}" update="display,:VolsListForm:datalist,:growl" oncomplete="handleSubmit(args,'VolsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VolsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
